@@ -17,6 +17,8 @@ services:
             - redis
             - meilisearch
             - selenium
+        restart: always
+
     mysql:
         image: 'mysql:8.0'
         ports:
@@ -35,6 +37,8 @@ services:
             test: ["CMD", "mysqladmin", "ping", "-p${DB_PASSWORD}"]
             retries: 3
             timeout: 5s
+        restart: always
+
     redis:
         image: 'redis:alpine'
         ports:
@@ -47,6 +51,8 @@ services:
             test: ["CMD", "redis-cli", "ping"]
             retries: 3
             timeout: 5s
+        restart: always
+
     meilisearch:
         image: 'getmeili/meilisearch:latest'
         ports:
@@ -59,6 +65,8 @@ services:
             test: ["CMD", "wget", "--no-verbose", "--spider",  "http://localhost:7700/health"]
             retries: 3
             timeout: 5s
+        restart: always
+
     mailhog:
         image: 'mailhog/mailhog:latest'
         ports:
@@ -66,12 +74,16 @@ services:
             - '${FORWARD_MAILHOG_DASHBOARD_PORT:-8025}:8025'
         networks:
             - ops
+        restart: always
+
     selenium:
         image: 'selenium/standalone-chrome'
         volumes:
             - '/dev/shm:/dev/shm'
         networks:
             - ops
+        restart: always
+
     frontend:
         build: ./frontend
         image: 'frontend:0.1'
@@ -83,7 +95,7 @@ services:
             # - './react/app/src:/home/react/app/src'
         networks:
             - ops
-
+        restart: always
 networks:
     ops:
         driver: bridge
