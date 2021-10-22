@@ -11,7 +11,7 @@ services:
         volumes:
             - '../Dev:/var/www/laravel_app'
         networks:
-            - ops
+            - net
         depends_on:
             - mysql
             - redis
@@ -30,9 +30,9 @@ services:
             MYSQL_PASSWORD: '${DB_PASSWORD}'
             MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
         volumes:
-            - 'opsmysql:/var/lib/mysql'
+            - 'mysql:/var/lib/mysql'
         networks:
-            - ops
+            - net
         healthcheck:
             test: ["CMD", "mysqladmin", "ping", "-p${DB_PASSWORD}"]
             retries: 3
@@ -44,9 +44,9 @@ services:
         ports:
             - '${FORWARD_REDIS_PORT:-6379}:6379'
         volumes:
-            - 'opsredis:/data'
+            - 'redis:/data'
         networks:
-            - ops
+            - net
         healthcheck:
             test: ["CMD", "redis-cli", "ping"]
             retries: 3
@@ -58,9 +58,9 @@ services:
         ports:
             - '${FORWARD_MEILISEARCH_PORT:-7700}:7700'
         volumes:
-            - 'opsmeilisearch:/data.ms'
+            - 'meilisearch:/data.ms'
         networks:
-            - ops
+            - net
         healthcheck:
             test: ["CMD", "wget", "--no-verbose", "--spider",  "http://localhost:7700/health"]
             retries: 3
@@ -73,7 +73,7 @@ services:
             - '${FORWARD_MAILHOG_PORT:-1025}:1025'
             - '${FORWARD_MAILHOG_DASHBOARD_PORT:-8025}:8025'
         networks:
-            - ops
+            - net
         restart: always
 
     selenium:
@@ -81,7 +81,7 @@ services:
         volumes:
             - '/dev/shm:/dev/shm'
         networks:
-            - ops
+            - net
         restart: always
 
     frontend:
@@ -94,16 +94,16 @@ services:
             # - './react/app/public:/home/react/app/public'
             # - './react/app/src:/home/react/app/src'
         networks:
-            - ops
+            - net
         restart: always
 
 networks:
-    ops:
+    net:
         driver: bridge
 volumes:
-    opsmysql:
+    netmysql:
         driver: local
-    opsredis:
+    redis:
         driver: local
-    opsmeilisearch:
+    meilisearch:
         driver: local
