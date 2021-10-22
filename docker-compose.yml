@@ -101,7 +101,7 @@ networks:
     net:
         driver: bridge
 volumes:
-    netmysql:
+    mysql:
         driver: local
     redis:
         driver: local
