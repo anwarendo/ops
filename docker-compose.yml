@@ -9,7 +9,7 @@ services:
         ports:
             - '8000:80'
         volumes:
-            - '../Dev:/var/www/laravel_app'
+            - '../dev:/var/www/laravel_app'
         networks:
             - net
         depends_on:
