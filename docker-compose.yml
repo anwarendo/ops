@@ -90,7 +90,7 @@ services:
         ports: 
             - '3000:80'
         volumes:
-            - '../Dev/react/app/build:/var/www/html/public'
+            - '../dev/react/app/build:/var/www/html/public'
             # - './react/app/public:/home/react/app/public'
             # - './react/app/src:/home/react/app/src'
         networks:
